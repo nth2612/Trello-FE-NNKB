@@ -1,0 +1,75 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: Roboto;
+}
+.expand-left{
+  background-color: #00000029;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 18px;
+  margin-left: 5px;
+  border-radius: 50%;
+  border: 1px solid #ffffff29;
+}
+.btn-expand-left:hover .expand-left {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.btn-expand-left{
+  display: flex;
+  flex-direction: column;
+  background-color: #0066a0;
+  border: none;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.board-menu{
+  transition-property: transform, width;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in;
+  box-shadow: 0px 8px 12px #091E4226, 0px 0px 1px #091E424F;
+}
+.MuiDrawer-root.MuiDrawer-modal {
+  position: unset;
+}
+textarea{
+  padding: 6px 8px 6px 12px;
+  resize: none;
+  overflow: hidden;
+  min-height: 20px;
+  width: 100%;
+  /* height: 92px; */
+  border-radius: 8px;
+  border: none;
+  box-shadow: inset 0 0 0 1px #8590a2;
+  font-size: 14px;
+  font-weight: 500;
+  color: #172b4d;
+  font-family: Roboto;
+  line-height: 20px;
+  display: block;
+}
+textarea:focus-visible{
+  outline: none;
+}
+textarea:focus, textarea:focus-within {
+  box-shadow: inset 0 0 0 2px #388bff;
+}
+/* ::-webkit-scrollbar-track{
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px
+}
+::-webkit-scrollbar-thumb {
+  background: red; 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+} */
