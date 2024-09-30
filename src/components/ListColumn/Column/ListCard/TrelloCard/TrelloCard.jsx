@@ -5,25 +5,29 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 const TrelloCard = memo(function TrelloCard({ cardName, card }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({
-    id: card?._id,
-    data: { ...card }
-  })
+  // const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({
+  //   id: card?._id,
+  //   data: { ...card }
+  // })
   return (
-    <Box ref={setNodeRef} {...attributes} {...listeners} sx={{
-      bgcolor: '#fff',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      outline: 'none',
-      transform: CSS.Translate.toString(transform),
-      transition: isDragging ? 'none' : 'transform 250ms ease',
-      zIndex: isDragging ? '999' : undefined,
-      rotate: isDragging ? '5deg' : undefined,
-      opacity: isDragging ? '0.7' : undefined,
-      boxShadow:  '0px 1px 1px #091e4240, 0px 0px 1px #091e424f',
-      '&:hover, &:focus-within' : { outline: '2px solid #388bff' },
-      '&:hover .MuiIconButton-root' : { display: 'inline-flex' }
-    }}>
+    <Box
+      // ref={setNodeRef}
+      // {...attributes}
+      // {...listeners}
+      sx={{
+        bgcolor: '#fff',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        outline: 'none',
+        // transform: CSS.Translate.toString(transform),
+        // transition: isDragging ? 'none' : 'transform 250ms ease',
+        // zIndex: isDragging ? '999' : undefined,
+        // rotate: isDragging ? '5deg' : undefined,
+        // opacity: isDragging ? '0.7' : undefined,
+        boxShadow:  '0px 1px 1px #091e4240, 0px 0px 1px #091e424f',
+        '&:hover, &:focus-within' : { outline: '2px solid #388bff' },
+        '&:hover .MuiIconButton-root' : { display: 'inline-flex' }
+      }}>
       <Box sx={{ minHeight: '36px', padding: '8px 12px 4px', position: 'relative' }} >
         <Box sx={{ color: '#172b4d', fontSize: '14px' }} >
           {cardName}

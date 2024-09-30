@@ -7,8 +7,12 @@ import BoardMenu from './components/BoardMenu/BoardMenu'
 import { mockData } from './apis/mock-data'
 import ListColumn from './components/ListColumn/ListColumn'
 import { closestCenter, DndContext, useSensors, useSensor, MouseSensor, TouchSensor } from '@dnd-kit/core'
+import { mapOrder } from './utils/sorts'
+import { arrayMove } from '@dnd-kit/sortable'
 
-const App = memo(function App() {
+const App = function App({ board }) {
+  // tranh click vao bi keo tha ma phai di chuyen it nhat 10px
+  // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   const mouseSensor = useSensor(MouseSensor, {
     // Di chuyển 10px mới thực hiện hàm handleDrag, tránh click
     activationConstraint : {
@@ -22,12 +26,14 @@ const App = memo(function App() {
       tolerance: 500
     }
   })
+  // const sensors = useSensors(pointerSensor)
   const sensors = useSensors(mouseSensor, touchSensor)
   const [columnIds, setColumnIds] = useState(mockData.board.columnOrderIds)
   const boardBarRef = useRef(null)
   const removeMargin = useMediaQuery('(min-width: 751px)')
   const [open, setOpen] = useState(false)
   const [boardBarHeight, setBoardBarHeight] = useState(0)
+  const [orderedColumns, setOrderedColumns] = useState([])
   const handleOpen = () => {
     setOpen(!open)
   }
@@ -35,18 +41,31 @@ const App = memo(function App() {
     setOpen(false)
   }
   useEffect(() => {
+    setOrderedColumns(mapOrder(mockData.board.columns, mockData.board.columnOrderIds, '_id'))
     if (boardBarRef.current) {
       setBoardBarHeight(boardBarRef.current.offsetHeight)
     }
-  }, [boardBarHeight])
+  }, [boardBarHeight, board])
   const handleDragEnd = (event) => {
+    console.log('drag end', event)
     const { active, over } = event
-    const oldIndex = columnIds.indexOf(active.id)
-    const newIndex = columnIds.indexOf(over.id)
-    const newColumnIds = [...columnIds]
-    newColumnIds.splice(oldIndex, 1)
-    newColumnIds.splice(newIndex, 0, active.id)
-    setColumnIds(newColumnIds)
+    // Neu keo linh tinh se khong co gi
+    if (!over) return
+    // neu vi tri keo va tha khac nhau thi thuc hien logic
+    if (active.id !== over.id) {
+      const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
+      const newIndex = orderedColumns.findIndex(c => c._id === over.id)
+      console.log('old:', oldIndex)
+      console.log('new:', newIndex)
+      const dndOrderedColumns = arrayMove(orderedColumns, oldIndex, newIndex)
+      const dndOrderedColumnIds = dndOrderedColumns.map(c => c._id)
+      console.log(dndOrderedColumnIds)
+      setOrderedColumns(dndOrderedColumns)
+    }
+    // const newColumnIds = [...columnIds]
+    // newColumnIds.splice(oldIndex, 1)
+    // newColumnIds.splice(newIndex, 0, active.id)
+    // setColumnIds(newColumnIds)
   }
   return (
     <>
@@ -70,7 +89,7 @@ const App = memo(function App() {
               height: (theme) => theme.trello.boardContentHeight,
               scrollbarColor: '#fff6 #00000026'
             }}>
-              <ListColumn boardBarHeight={boardBarHeight} columnIds={columnIds} />
+              <ListColumn boardBarHeight={boardBarHeight} columnIds={columnIds} orderedColumns={orderedColumns} />
             </Box>
           </DndContext>
         </Box>
@@ -82,6 +101,6 @@ const App = memo(function App() {
       </Box>
     </>
   )
-})
+}
 
 export default App
