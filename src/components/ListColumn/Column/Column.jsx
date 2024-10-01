@@ -8,7 +8,7 @@ import ListCard from './ListCard/ListCard'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-const Column = memo(function Column({ column, cards, cardOrderIds, boardBarHeight }) {
+const Column = memo(function Column({ column, boardBarHeight }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column?._id,
     data: { ...column }
@@ -16,7 +16,10 @@ const Column = memo(function Column({ column, cards, cardOrderIds, boardBarHeigh
   const dndkitColumnStyles = {
     // touchAction: 'none',
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    height: '100%',
+    opacity: isDragging ? '0.7' : undefined,
+    zIndex: isDragging ? '999' : undefined
   }
   const textareaRef = useRef(null)
   // const headerRef = useRef(null)
@@ -54,26 +57,19 @@ const Column = memo(function Column({ column, cards, cardOrderIds, boardBarHeigh
   //   }
   // }, [initText])
   return (
-    <Box
-      // style={dndkitColumnStyles}
-      // ref={setNodeRef}
-      // {...attributes}
-      // {...listeners}
-      sx={{
-        paddingX: '6px',
-        flexShrink: 0,
-        height: '100%',
-        // transform: CSS.Translate.toString(transform),
-        // transition: isDragging ? 'none' : 'transform 250ms ease',
-        // zIndex: isDragging ? '999' : undefined,
-        // rotate: isDragging ? '5deg' : undefined,
-        // opacity: isDragging ? '0.7' : undefined
-      }}>
+    // <div style={dndkitColumnStyles} ref={setNodeRef} {...attributes}>
       <Box
         style={dndkitColumnStyles}
         ref={setNodeRef}
         {...attributes}
-        {...listeners}
+      // {...listeners}
+      sx={{
+        paddingX: '6px',
+        flexShrink: 0,
+        // transform: CSS.Translate.toString(transform),
+        // transition: isDragging ? 'none' : 'transform 250ms ease',
+      }}>
+      <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -86,10 +82,10 @@ const Column = memo(function Column({ column, cards, cardOrderIds, boardBarHeigh
         }}
       >
         <Box className='head-card'
-          // {...listeners}
+          {...listeners}
           sx={{ padding: '8px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }} >
           <Box sx={{ flex: 1 }} >
-            <h2 ref={h2Ref} onClick={handleClickH2} style={{ display: editText ? 'none' : 'block', letterSpacing: 'normal', color: '#172b4d', fontSize: '14px', padding: '6px 8px 6px 12px', cursor: 'pointer', fontWeight: '500', lineHeight: '20px', overflowWrap: 'anywhere' }}>{initText}</h2>
+            <h2 ref={h2Ref} onClick={handleClickH2} style={{ display: editText ? 'none' : 'block', letterSpacing: 'normal', color: '#172b4d', fontSize: '14px', padding: '6px 8px 6px 12px', cursor: 'pointer', fontWeight: '500', lineHeight: '20px', overflowWrap: 'anywhere' }}>{column._id}</h2>
             <textarea
               style={{ height: `${h2Height}px`, display: editText ? 'block' : 'none' }}
               ref={textareaRef}
@@ -106,12 +102,12 @@ const Column = memo(function Column({ column, cards, cardOrderIds, boardBarHeigh
             <MoreHorizIcon sx={{ color: '#626f86' }} fontSize='small' />
           </IconButton>
         </Box>
-        <Box sx={{ display: cards?.length !== 0 ? 'block' : 'none', height: '8px', mb: '-2px' }} ></Box>
+        <Box sx={{ display: column?.card.length !== 0 ? 'block' : 'none', height: '8px', mb: '-2px' }} ></Box>
         {/* List Card */}
         <ListCard
           headerHeight={headerHeight}
-          cards={cards}
-          cardOrderIds={cardOrderIds}
+          cards={column?.card}
+          cardOrderIds={column?.cardOrderIds}
           boardBarHeight={boardBarHeight}
           isAddingCard={isAddingCard}
           setIsAddingCard={setIsAddingCard} />
@@ -125,6 +121,7 @@ const Column = memo(function Column({ column, cards, cardOrderIds, boardBarHeigh
         }
       </Box>
     </Box>
+    // </div>
   )
 })
 

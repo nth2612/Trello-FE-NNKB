@@ -24,40 +24,40 @@ export const mockData = {
         _id: 'column-id-02',
         boardId: 'board-id-02',
         title: 'CNGDC',
-        cardOrderIds: ['card-id-04', 'card-id-02', 'card-id-01', 'card-id-03'],
+        cardOrderIds: ['card-id-11', 'card-id-08', 'card-id-10', 'card-id-09'],
         card: [
-          { _id: 'card-id-01', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Mèo hoang', memberIds: [] },
-          { _id: 'card-id-02', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Bartender', memberIds: [] },
-          { _id: 'card-id-03', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Kẻ thù', memberIds: [] },
-          { _id: 'card-id-04', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Em dạo này', memberIds: [] }
+          { _id: 'card-id-08', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Mèo hoang', memberIds: [] },
+          { _id: 'card-id-09', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Bartender', memberIds: [] },
+          { _id: 'card-id-10', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Kẻ thù', memberIds: [] },
+          { _id: 'card-id-11', boardId: 'board-id-02', columnId: 'column-id-02', title: 'Em dạo này', memberIds: [] }
         ]
       },
       {
         _id: 'column-id-03',
         boardId: 'board-id-02',
         title: 'Gieo',
-        cardOrderIds: ['card-id-01', 'card-id-02', 'card-id-03', 'card-id-04', 'card-id-05', 'card-id-06', 'card-id-07', 'card-id-08', 'card-id-09', 'card-id-10', 'card-id-11'],
+        cardOrderIds: ['card-id-12', 'card-id-13', 'card-id-14', 'card-id-15', 'card-id-22', 'card-id-16', 'card-id-17', 'card-id-18', 'card-id-19', 'card-id-21', 'card-id-20'],
         card: [
-          { _id: 'card-id-01', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Bạn thỏ tivi nhỏ', memberIds: [] },
-          { _id: 'card-id-02', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Mấy khi', memberIds: [] },
-          { _id: 'card-id-03', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Em trang trí', memberIds: [] },
-          { _id: 'card-id-04', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Điểm đến cuối cùng', memberIds: [] },
-          { _id: 'card-id-05', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Em trong đầu', memberIds: [] },
-          { _id: 'card-id-06', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Chào buổi sáng', memberIds: [] },
-          { _id: 'card-id-07', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Thấy chưa', memberIds: [] },
-          { _id: 'card-id-08', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Đá tan', memberIds: [] },
-          { _id: 'card-id-09', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Đêm hôm qua', memberIds: [] },
-          { _id: 'card-id-10', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Gieo', memberIds: [] },
-          { _id: 'card-id-11', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Mất tích', memberIds: [] }
+          { _id: 'card-id-12', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Bạn thỏ tivi nhỏ', memberIds: [] },
+          { _id: 'card-id-13', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Mấy khi', memberIds: [] },
+          { _id: 'card-id-14', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Em trang trí', memberIds: [] },
+          { _id: 'card-id-15', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Điểm đến cuối cùng', memberIds: [] },
+          { _id: 'card-id-16', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Em trong đầu', memberIds: [] },
+          { _id: 'card-id-17', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Chào buổi sáng', memberIds: [] },
+          { _id: 'card-id-18', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Thấy chưa', memberIds: [] },
+          { _id: 'card-id-19', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Đá tan', memberIds: [] },
+          { _id: 'card-id-20', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Đêm hôm qua', memberIds: [] },
+          { _id: 'card-id-21', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Gieo', memberIds: [] },
+          { _id: 'card-id-22', boardId: 'board-id-02', columnId: 'column-id-03', title: 'Mất tích', memberIds: [] }
         ]
       },
       {
         _id : 'column-id-04',
         boardId: 'board-id-02',
         title: 'Dummy text',
-        cardOrderIds: ['card-id-01'],
+        cardOrderIds: ['card-id-23'],
         card: [
-          { _id: 'card-id-01', boardId: 'board-id-02', columnId: 'column-id-04', title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur magnam rerum repellendus sunt, est sapiente iusto, laudantium dicta accusamus quis voluptas eum enim possimus consectetur fuga aut. Laborum, voluptate fugit.', memberIds: [] }
+          { _id: 'card-id-23', boardId: 'board-id-02', columnId: 'column-id-04', title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur magnam rerum repellendus sunt, est sapiente iusto, laudantium dicta accusamus quis voluptas eum enim possimus consectetur fuga aut. Laborum, voluptate fugit.', memberIds: [] }
         ]
       }
     ]

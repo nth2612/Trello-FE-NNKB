@@ -4,16 +4,30 @@ import { memo } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-const TrelloCard = memo(function TrelloCard({ cardName, card }) {
+const TrelloCard = memo(function TrelloCard({ card }) {
   // const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({
   //   id: card?._id,
   //   data: { ...card }
   // })
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: card?._id,
+    data: { ...card }
+  })
+  const dndkitCardStyles = {
+    // touchAction: 'none',
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? '0.7' : undefined
+  }
   return (
     <Box
       // ref={setNodeRef}
       // {...attributes}
       // {...listeners}
+      style={dndkitCardStyles}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
       sx={{
         bgcolor: '#fff',
         borderRadius: '8px',
@@ -30,7 +44,7 @@ const TrelloCard = memo(function TrelloCard({ cardName, card }) {
       }}>
       <Box sx={{ minHeight: '36px', padding: '8px 12px 4px', position: 'relative' }} >
         <Box sx={{ color: '#172b4d', fontSize: '14px' }} >
-          {cardName}
+          {card?.title}
         </Box>
         <IconButton sx={{ display: 'none', position: 'absolute', width: '32px', height: '32px', top: '2px', right: '2px', bgcolor: '#fff', '&:hover': { bgcolor: '#f1f2f4' } }} >
           <EditOutlinedIcon sx={{ fontSize: '16px' }} />
