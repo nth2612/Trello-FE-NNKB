@@ -51,7 +51,9 @@ const App = function App({ board }) {
     setOpen(false)
   }
   useEffect(() => {
-    setOrderedColumns(mapOrder(mockData.board.columns, mockData.board.columnOrderIds, '_id'))
+    // setOrderedColumns(mapOrder(mockData.board.columns, mockData.board.columnOrderIds, '_id'))
+    setOrderedColumns(board.columns)
+    console.log(board.columns)
     if (boardBarRef.current) {
       setBoardBarHeight(boardBarRef.current.offsetHeight)
     }

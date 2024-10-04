@@ -10,7 +10,7 @@ const ListColumn = memo(function ListColumn({ boardBarHeight, columnIds, ordered
   // const orderedColumns = columnIds.map(id => rawColumn.find(column => column._id === id))
   return (
     // items can nhan list id chu k phai object
-    <SortableContext items={mockData.board.columns.map(c => c._id)} strategy={horizontalListSortingStrategy}>
+    <SortableContext items={orderedColumns.map(c => c._id)} strategy={horizontalListSortingStrategy}>
       <Box sx={{ mt: '12px', flexGrow: 1 }} >
         <Box sx={{ height: '100%' }} >
           <Box sx={{ padding: '2px 6px 8px', height: '100%', display: 'flex', flexDirection: 'row' }} >
