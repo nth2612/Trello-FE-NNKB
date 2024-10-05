@@ -11,6 +11,7 @@ import { mapOrder } from './utils/sorts'
 import { arrayMove } from '@dnd-kit/sortable'
 import Column from './components/ListColumn/Column/Column'
 import TrelloCard from './components/ListColumn/Column/ListCard/TrelloCard/TrelloCard'
+import { cloneDeep } from 'lodash'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -81,17 +82,34 @@ const App = function App({ board }) {
     if (!activeColumn || !overColumn) return
 
     if (activeColumn._id !== overColumn._id) {
-      // setOrderedColumns(prev => {
+      setOrderedColumns(prev => {
         const overCardIndex = overColumn?.card?.findIndex(c => c._id === overCardId)
         let newCardIndex
         const isBelowOverItem = active.rect.current.translated &&
         active.rect.current.translated.top > over.rect.top + over.rect.height
         const modifier = isBelowOverItem ? 1 : 0
         newCardIndex = overCardIndex >= 0 ? overCardIndex + modifier : overColumn.card.length + 1
-        console.log(newCardIndex)
-        console.log(modifier)
-        console.log(isBelowOverItem)
-      // })
+        // Clone orderedColumns ra cai moi
+        const nextColumns = cloneDeep(prev)
+        const nextActiveColumn = nextColumns.find(c => c._id === activeColumn._id)
+        const nextOverColumn = nextColumns.find(c => c._id === overColumn._id)
+        // Column cu
+        if (nextActiveColumn) {
+          // Xoa card bi keo khoi column cu
+          nextActiveColumn.card = nextActiveColumn.card.filter(c => c._id !== activeDraggingCardId)
+          nextActiveColumn.cardOrderIds = nextActiveColumn.card.map(c => c._id)
+        }
+        // Column moi
+        if (nextOverColumn) {
+          // Kiem tra thua: neu card keo co o ben over thi vut
+          nextOverColumn.card = nextOverColumn.card.filter(c => c._id !== activeDraggingCardId)
+          // Them card moi vao listcard cua over
+          nextOverColumn.card = nextOverColumn.card.toSpliced(newCardIndex, 0, activeDraggingCardData)
+          // cap nhat ids
+          nextOverColumn.cardOrderIds = nextOverColumn.card.map(c => c._id)
+        }
+        return nextColumns
+      })
     }
 
   }
@@ -107,11 +125,8 @@ const App = function App({ board }) {
     if (active.id !== over.id) {
       const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
       const newIndex = orderedColumns.findIndex(c => c._id === over.id)
-      console.log('old:', oldIndex)
-      console.log('new:', newIndex)
       const dndOrderedColumns = arrayMove(orderedColumns, oldIndex, newIndex)
       const dndOrderedColumnIds = dndOrderedColumns.map(c => c._id)
-      console.log(dndOrderedColumnIds)
       setOrderedColumns(dndOrderedColumns)
     }
     setActiveDragItemId(null)

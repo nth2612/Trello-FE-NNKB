@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import TrelloCard from './TrelloCard/TrelloCard'
 import AddCard from './AddCard/AddCard'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { horizontalListSortingStrategy, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { closestCorners, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
 
@@ -21,8 +21,12 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
   // })
   // const sensors = useSensors(mouseSensor, touchSensor)
   const [rawCard, setRawCard] = useState(cards)
+  const [orderedCards, setOrderedCards] = useState([])
   const [cardOrder, setCardOrder] = useState(cardOrderIds)
   const cardOrdered = cardOrder?.map(id => rawCard?.find(card => card?._id === id))
+  useEffect(() => {
+    setOrderedCards(cards)
+  }, [cards])
   let displayForOL = 'flex'
   // if (rawCard?.length === 0) {
   //   displayForOL = 'none'
@@ -53,7 +57,7 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
     //   // modifiers={[restrictToVerticalAxis]}
     // >
       // <SortableContext items={cardOrdered.map(card => card?._id)} strategy={verticalListSortingStrategy} >
-    <SortableContext items={cards.map(c => c._id)} strategy={verticalListSortingStrategy}>
+    <SortableContext items={orderedCards.map(c => c._id)} strategy={verticalListSortingStrategy}>
         <Box sx={{
           p: '2px 4px',
           mx: '4px',
@@ -68,7 +72,7 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
           maxHeight: (theme) => `calc(${theme.trello.cardHeight} - ${boardBarHeight}px - ${headerHeight}px)`
         }} >
           {/* Trello Card */}
-          { cards?.length !== 0 && cardOrdered?.map(card => <TrelloCard key={card?._id} card={card} cardName={card?.title} />)}
+          { cards?.length !== 0 && orderedCards?.map(card => <TrelloCard key={card?._id} card={card} cardName={card?.title} />)}
           {isAddingCard && <AddCard setCardOrder={setCardOrder} isAddingCard={isAddingCard} setIsAddingCard={setIsAddingCard} setRawCard={setRawCard} cardOrderIds={cardOrderIds} />}
         </Box>
       </SortableContext>
