@@ -23,7 +23,7 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
   const [rawCard, setRawCard] = useState(cards)
   const [orderedCards, setOrderedCards] = useState([])
   const [cardOrder, setCardOrder] = useState(cardOrderIds)
-  const cardOrdered = cardOrder?.map(id => rawCard?.find(card => card?._id === id))
+  // const cardOrdered = cardOrder?.map(id => rawCard?.find(card => card?._id === id))
   useEffect(() => {
     setOrderedCards(cards)
   }, [cards])

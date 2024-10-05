@@ -55,9 +55,16 @@ export const mockData = {
         _id : 'column-id-04',
         boardId: 'board-id-02',
         title: 'Dummy text',
-        cardOrderIds: ['card-id-23'],
+        // cardOrderIds: ['card-id-23'],
+        cardOrderIds: ['card-id-230-placeholder-card'],
         card: [
-          { _id: 'card-id-23', boardId: 'board-id-02', columnId: 'column-id-04', title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur magnam rerum repellendus sunt, est sapiente iusto, laudantium dicta accusamus quis voluptas eum enim possimus consectetur fuga aut. Laborum, voluptate fugit.', memberIds: [] }
+          // { _id: 'card-id-23', boardId: 'board-id-02', columnId: 'column-id-04', title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur magnam rerum repellendus sunt, est sapiente iusto, laudantium dicta accusamus quis voluptas eum enim possimus consectetur fuga aut. Laborum, voluptate fugit.', memberIds: [] }
+          {
+            _id: 'card-id-230-placeholder-card',
+            boardId: 'board-id-02',
+            columnId: 'column-id-04',
+            FE_PlaceholderCard: true
+          }
         ]
       }
     ]
