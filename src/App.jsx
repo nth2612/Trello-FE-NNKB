@@ -11,7 +11,8 @@ import { mapOrder } from './utils/sorts'
 import { arrayMove } from '@dnd-kit/sortable'
 import Column from './components/ListColumn/Column/Column'
 import TrelloCard from './components/ListColumn/Column/ListCard/TrelloCard/TrelloCard'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
+import { generatePlaceholderCard } from './utils/formatters'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -88,6 +89,12 @@ const App = function App({ board }) {
       if (nextActiveColumn) {
         // Xoa card bi keo khoi column cu
         nextActiveColumn.card = nextActiveColumn.card.filter(c => c._id !== activeDraggingCardId)
+
+        // them placeholder card khi het card
+        if (isEmpty(nextActiveColumn.card)) {
+          nextActiveColumn.card = [generatePlaceholderCard(nextActiveColumn)]
+        }
+        // cap nhat ids
         nextActiveColumn.cardOrderIds = nextActiveColumn.card.map(c => c._id)
       }
       // Column moi
@@ -101,6 +108,8 @@ const App = function App({ board }) {
         }
         // Them card moi vao listcard cua over
         nextOverColumn.card = nextOverColumn.card.toSpliced(newCardIndex, 0, rebuild)
+        // xoa card placeholder khi dc them vao
+        nextOverColumn.card = nextOverColumn.card.filter(c => !c.FE_PlaceholderCard)
         // cap nhat ids
         nextOverColumn.cardOrderIds = nextOverColumn.card.map(c => c._id)
       }
