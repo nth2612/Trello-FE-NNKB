@@ -16,7 +16,9 @@ const ListColumn = memo(function ListColumn({ boardBarHeight, columnIds, ordered
           <Box sx={{ padding: '2px 6px 8px', height: '100%', display: 'flex', flexDirection: 'row' }} >
             {/* Column */}
             {orderedColumns.map(col => <Column key={col._id} column={col} boardBarHeight={boardBarHeight} />)}
-            <AddColumn setRawColumn={setRawColumn} columnOrderIds={columnIds} />
+            <AddColumn setRawColumn={setRawColumn}
+            // columnOrderIds={columnIds} tam xoa
+            />
           </Box>
         </Box>
       </Box>

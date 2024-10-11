@@ -7,14 +7,14 @@ import { toast } from 'react-toastify'
 const SignUpPage = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const navigate = useNavigate()
-  const submitLogIn = (data) => {
+  const submitSignUp = (data) => {
     toast.success('Đăng ký thành công, vui lòng đăng nhập lại')
     navigate('/login')
   }
   return (
     <Box className='bg-login-signup h-screen bg-no-repeat bg-cover bg-center relative'>
       <Box className='absolute top-1/2 left-1/2 w-96 bg-white translate-x-n50 translate-y-n50 rounded-lg p-4'>
-        <form onSubmit={handleSubmit(submitLogIn)}>
+        <form onSubmit={handleSubmit(submitSignUp)}>
           <h1 className='font-extrabold text-3xl text-[#0079bf] text-center'>Trello</h1>
           {/* Username */}
           <input

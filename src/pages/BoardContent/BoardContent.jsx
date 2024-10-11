@@ -36,7 +36,8 @@ const BoardContent = function BoardContent({ board }) {
   })
   // const sensors = useSensors(pointerSensor)
   const sensors = useSensors(mouseSensor, touchSensor)
-  const [columnIds, setColumnIds] = useState(mockData.board.columnOrderIds)
+  // tam xoa
+  // const [columnIds, setColumnIds] = useState(mockData.board.columnOrderIds)
   const boardBarRef = useRef(null)
   const removeMargin = useMediaQuery('(min-width: 751px)')
   const [open, setOpen] = useState(false)
@@ -243,7 +244,10 @@ const BoardContent = function BoardContent({ board }) {
               height: (theme) => theme.trello.boardContentHeight,
               scrollbarColor: '#fff6 #00000026'
             }}>
-              <ListColumn boardBarHeight={boardBarHeight} columnIds={columnIds} orderedColumns={orderedColumns} />
+              <ListColumn boardBarHeight={boardBarHeight}
+              // tam xoa
+              // columnIds={columnIds}
+                orderedColumns={orderedColumns} />
               <DragOverlay dropAnimation={customDropAnimation}>
                 {!activeDragItemType && null}
                 {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && <Column column={activeDragItemData} />}

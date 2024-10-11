@@ -5,6 +5,9 @@ export default {
   content: ['./src/**/*.{html,js,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundColor: {
+        'rgba': 'rgba(0,0,0, 0.2)'
+      },
       backgroundImage: {
         'login-signup': "url('~/images/teamwork.jpg')"
       },

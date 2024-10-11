@@ -18,7 +18,7 @@ const LoginPage = () => {
       return
     }
     toast.success('Dang nhap ok')
-    navigate('/board')
+    navigate('/user')
   }
   return (
     <Box className='bg-login-signup h-screen bg-no-repeat bg-cover bg-center relative'>

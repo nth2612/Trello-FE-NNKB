@@ -9,7 +9,7 @@ const App = () => {
   return (
     <Routes>
       {/* Khi truy cap trang web thi tro ngay toi login */}
-      <Route path='/' element={<Navigate to='/login' replace={true} />} />
+      <Route path='/' element={<Navigate to='/board' replace={true} />} />
       <Route path='/login' element={<LoginPage/>} />
       <Route path='/signup' element={<SignUpPage/>} />
       <Route path='/user' element={<UserPage/>}/>

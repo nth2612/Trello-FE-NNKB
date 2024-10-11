@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu, Typography } from '@mui/material'
 import OutputIcon from '@mui/icons-material/Output'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Link } from 'react-router-dom'
 
 function Account() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -67,7 +66,7 @@ function Account() {
           <ListItemButton sx={{ color: '#172b4d' }} >
             <ListItemText sx={{ my: 0 }} primary='Switch accounts' />
           </ListItemButton>
-          <ListItemButton sx={{ color: '#172b4d' }} >
+          <ListItemButton sx={{ color: '#172b4d' }} onClick={() => location.href = '/user'} >
             <ListItemText sx={{ my: 0 }} primary='Manage account' />
             <ListItemIcon sx={{ justifyContent: 'center', color: '#44546f' }}>
               <OutputIcon/>
