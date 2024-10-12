@@ -12,6 +12,7 @@ import Column from '~/components/ListColumn/Column/Column'
 import TrelloCard from '~/components/ListColumn/Column/ListCard/TrelloCard/TrelloCard'
 import { cloneDeep, isEmpty } from 'lodash'
 import { generatePlaceholderCard } from '~/utils/formatters'
+import { fetchBoardAPI } from '~/apis'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -56,6 +57,7 @@ const BoardContent = function BoardContent({ board }) {
   }
   useEffect(() => {
     // setOrderedColumns(mapOrder(mockData.board.columns, mockData.board.columnOrderIds, '_id'))
+    fetchBoardAPI('67093f6e67ef55490d8a212c')
     setOrderedColumns(board.columns)
     if (boardBarRef.current) {
       setBoardBarHeight(boardBarRef.current.offsetHeight)
