@@ -1,12 +1,10 @@
 import { Box } from '@mui/material'
 import Column from './Column/Column'
-import { mockData } from '~/apis/mock-data.js'
 import AddColumn from '../AddColumn/AddColumn'
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable'
 
-const ListColumn = memo(function ListColumn({ boardBarHeight, columnIds, orderedColumns }) {
-  const [rawColumn, setRawColumn] = useState(mockData.board?.columns)
+const ListColumn = memo(function ListColumn({ boardBarHeight, orderedColumns, createNewColumn }) {
   // const orderedColumns = columnIds.map(id => rawColumn.find(column => column._id === id))
   return (
     // items can nhan list id chu k phai object
@@ -16,9 +14,7 @@ const ListColumn = memo(function ListColumn({ boardBarHeight, columnIds, ordered
           <Box sx={{ padding: '2px 6px 8px', height: '100%', display: 'flex', flexDirection: 'row' }} >
             {/* Column */}
             {orderedColumns.map(col => <Column key={col._id} column={col} boardBarHeight={boardBarHeight} />)}
-            <AddColumn setRawColumn={setRawColumn}
-            // columnOrderIds={columnIds} tam xoa
-            />
+            <AddColumn createNewColumn={createNewColumn} />
           </Box>
         </Box>
       </Box>

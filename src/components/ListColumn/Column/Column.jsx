@@ -58,14 +58,14 @@ const Column = memo(function Column({ column, boardBarHeight }) {
   // }, [initText])
   return (
     // <div style={dndkitColumnStyles} ref={setNodeRef} {...attributes}>
-      <Box
-        style={dndkitColumnStyles}
-        ref={setNodeRef}
-        {...attributes}
+    <Box
+      style={dndkitColumnStyles}
+      ref={setNodeRef}
+      {...attributes}
       // {...listeners}
       sx={{
         paddingX: '6px',
-        flexShrink: 0,
+        flexShrink: 0
         // transform: CSS.Translate.toString(transform),
         // transition: isDragging ? 'none' : 'transform 250ms ease',
       }}>

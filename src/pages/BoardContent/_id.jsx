@@ -5,7 +5,7 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { fetchBoardAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewColumnAPI, fetchBoardAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
@@ -46,6 +46,18 @@ const Board = () => {
       setBoardBarHeight(boardBarRef.current.offsetHeight)
     }
   }, [boardBarHeight])
+  const createNewColumn = async (newColumnData) => {
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+    const newBoard = { ...board }
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+    setBoard(newBoard)
+  }
   const moveColumn = (dndOrderedColumn) => {
     // Nhan vao list column da sort, update lai list ids
     const dndOrderedColumnIds = dndOrderedColumn.map(c => c._id)
@@ -73,6 +85,7 @@ const Board = () => {
           <BoardContent
             board={board}
             moveColumn={moveColumn}
+            createNewColumn={createNewColumn}
           />
         </Box>
         <Drawer anchor='right' open={open} onClose={() => setOpen(false)} sx={{ '& .MuiPaper-root' : { top: '58px', width: '339px', borderRadius: 'unset', transition: 'transform,width 100ms ease-in' } }} >

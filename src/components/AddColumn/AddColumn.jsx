@@ -2,9 +2,8 @@ import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useEffect, useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-  // Update ngay 11/10 xoa bien columnids tu cap cha va bo cai add column tam thoi
-function AddColumn({ setRawColumn, columnOrderIds }) {
+
+function AddColumn({ createNewColumn }) {
   const textareaRef = useRef(null)
   const formRef = useRef(null)
   const [openInput, setOpenInput] = useState(false)
@@ -44,20 +43,14 @@ function AddColumn({ setRawColumn, columnOrderIds }) {
     addNewColumn()
   }
   const addNewColumn = () => {
-    // if (nameColumn !== '') {
-    //   setRawColumn(prev => {
-    //     const newColumn = {
-    //       _id : uuidv4(),
-    //       boardId: 'board-id-02',
-    //       title: nameColumn,
-    //       cardOrderIds: [],
-    //       card: []
-    //     }
-    //     setNameColumn('')
-    //     textareaRef.current.focus()
-    //     return [...prev, newColumn]
-    //   })
-    // }
+    if (nameColumn !== '') {
+      const newColumnData = {
+        title: nameColumn
+      }
+      createNewColumn(newColumnData)
+      setNameColumn('')
+      textareaRef.current.focus()
+    }
   }
   const handleChange = (input) => {
     setNameColumn(input.target.value)
