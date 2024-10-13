@@ -85,7 +85,20 @@ const Column = memo(function Column({ column, boardBarHeight }) {
           {...listeners}
           sx={{ padding: '8px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }} >
           <Box sx={{ flex: 1 }} >
-            <h2 ref={h2Ref} onClick={handleClickH2} style={{ display: editText ? 'none' : 'block', letterSpacing: 'normal', color: '#172b4d', fontSize: '14px', padding: '6px 8px 6px 12px', cursor: 'pointer', fontWeight: '500', lineHeight: '20px', overflowWrap: 'anywhere' }}>{column._id}</h2>
+            <h2
+              ref={h2Ref}
+              onClick={handleClickH2}
+              style={{
+                display: editText ? 'none' : 'block',
+                letterSpacing: 'normal',
+                color: '#172b4d',
+                fontSize: '14px',
+                padding: '6px 8px 6px 12px',
+                cursor: 'pointer',
+                fontWeight: '500',
+                lineHeight: '20px',
+                overflowWrap: 'anywhere'
+              }}>{column.title}</h2>
             <textarea
               style={{ height: `${h2Height}px`, display: editText ? 'block' : 'none' }}
               ref={textareaRef}
@@ -102,11 +115,11 @@ const Column = memo(function Column({ column, boardBarHeight }) {
             <MoreHorizIcon sx={{ color: '#626f86' }} fontSize='small' />
           </IconButton>
         </Box>
-        <Box sx={{ display: column?.card.length !== 0 ? 'block' : 'none', height: '8px', mb: '-2px' }} ></Box>
+        <Box sx={{ display: column?.card?.length !== 0 ? 'block' : 'none', height: '8px', mb: '-2px' }} ></Box>
         {/* List Card */}
         <ListCard
           headerHeight={headerHeight}
-          cards={column?.card}
+          cards={column?.cards}
           cardOrderIds={column?.cardOrderIds}
           boardBarHeight={boardBarHeight}
           isAddingCard={isAddingCard}

@@ -1,9 +1,8 @@
 import { Route, Routes, Navigate, Outlet } from 'react-router-dom'
-import BoardContent from './pages/BoardContent/BoardContent'
 import LoginPage from './pages/Login/LoginPage'
 import UserPage from './pages/User/UserPage'
-import { mockData } from './apis/mock-data'
 import SignUpPage from './pages/SignUp/SignUpPage'
+import Board from './pages/BoardContent/_id'
 
 const App = () => {
   return (
@@ -13,7 +12,7 @@ const App = () => {
       <Route path='/login' element={<LoginPage/>} />
       <Route path='/signup' element={<SignUpPage/>} />
       <Route path='/user' element={<UserPage/>}/>
-      <Route path='/board' element={<BoardContent board={mockData?.board} />}/>
+      <Route path='/board' element={<Board />}/>
     </Routes>
   )
 }
