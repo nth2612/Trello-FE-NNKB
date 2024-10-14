@@ -8,7 +8,7 @@ import ListCard from './ListCard/ListCard'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-const Column = memo(function Column({ column, boardBarHeight }) {
+const Column = memo(function Column({ column, boardBarHeight, createNewCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column?._id,
     data: { ...column }
@@ -123,7 +123,10 @@ const Column = memo(function Column({ column, boardBarHeight }) {
           cardOrderIds={column?.cardOrderIds}
           boardBarHeight={boardBarHeight}
           isAddingCard={isAddingCard}
-          setIsAddingCard={setIsAddingCard} />
+          setIsAddingCard={setIsAddingCard}
+          createNewCard={createNewCard}
+          columnId={column?._id}
+        />
         {!isAddingCard &&
         <Box sx={{ padding: '8px 8px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', columnGap: '4px' }} >
           <Button onClick={() => setIsAddingCard(true)} startIcon={<AddIcon/>} sx={{ color: '#44546f', borderRadius: '8px', justifyContent: 'flex-start', lineHeight: 1, '&:hover' : { bgcolor: '#091e4224', color: '#172b4d' } }} fullWidth >Add a card</Button>

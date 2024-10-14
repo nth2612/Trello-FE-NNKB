@@ -5,7 +5,7 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { createNewColumnAPI, fetchBoardAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewCardAPI, createNewColumnAPI, fetchBoardAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
@@ -58,6 +58,26 @@ const Board = () => {
     newBoard.columnOrderIds.push(createdColumn._id)
     setBoard(newBoard)
   }
+  const createNewCard = async (newCardData) => {
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id
+    })
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(c => c._id === createdCard.columnId)
+    if (columnToUpdate) {
+      if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
+        // Neu la column rong chua co card thi xoa card placeholder va them moi
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds= [createdCard._id]
+      } else {
+        // Neu column co card roi thi day nhu binh thuong
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard)
+      }
+    }
+    setBoard(newBoard)
+  }
   const moveColumn = (dndOrderedColumn) => {
     // Nhan vao list column da sort, update lai list ids
     const dndOrderedColumnIds = dndOrderedColumn.map(c => c._id)
@@ -86,6 +106,7 @@ const Board = () => {
             board={board}
             moveColumn={moveColumn}
             createNewColumn={createNewColumn}
+            createNewCard={createNewCard}
           />
         </Box>
         <Drawer anchor='right' open={open} onClose={() => setOpen(false)} sx={{ '& .MuiPaper-root' : { top: '58px', width: '339px', borderRadius: 'unset', transition: 'transform,width 100ms ease-in' } }} >

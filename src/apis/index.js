@@ -20,7 +20,10 @@ export const createNewColumnAPI = async (newColumnData) => {
 }
 
 // Card
-
+export const createNewCardAPI = async (newCardData) => {
+  const response = await axios.post(`${API_ROOT}/v1/card`, newCardData)
+  return response.data
+}
 // User
 
 // Invitation

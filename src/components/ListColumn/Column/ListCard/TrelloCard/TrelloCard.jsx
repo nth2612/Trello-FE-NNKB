@@ -5,10 +5,6 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 const TrelloCard = memo(function TrelloCard({ card }) {
-  // const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({
-  //   id: card?._id,
-  //   data: { ...card }
-  // })
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card?._id,
     data: { ...card }
@@ -21,9 +17,6 @@ const TrelloCard = memo(function TrelloCard({ card }) {
   }
   return (
     <Box
-      // ref={setNodeRef}
-      // {...attributes}
-      // {...listeners}
       style={dndkitCardStyles}
       ref={setNodeRef}
       {...attributes}
@@ -40,8 +33,6 @@ const TrelloCard = memo(function TrelloCard({ card }) {
         // transform: CSS.Translate.toString(transform),
         // transition: isDragging ? 'none' : 'transform 250ms ease',
         // zIndex: isDragging ? '999' : undefined,
-        // rotate: isDragging ? '5deg' : undefined,
-        // opacity: isDragging ? '0.7' : undefined,
         boxShadow:  '0px 1px 1px #091e4240, 0px 0px 1px #091e424f',
         '&:hover, &:focus-within' : { outline: '2px solid #388bff' },
         '&:hover .MuiIconButton-root' : { display: 'inline-flex' }

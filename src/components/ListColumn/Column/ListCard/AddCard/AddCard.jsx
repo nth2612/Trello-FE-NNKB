@@ -1,9 +1,8 @@
 import { Box, Button, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { memo, useEffect, useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
-const AddCard = memo(function AddACard({ isAddingCard, setIsAddingCard, setRawCard, setCardOrder }) {
+const AddCard = memo(function AddACard({ isAddingCard, setIsAddingCard, createNewCard, columnId }) {
   const textareaRef = useRef(null)
   const formRef = useRef(null)
   const [openInputCard, setOpenInputCard] = useState(false)
@@ -51,19 +50,13 @@ const AddCard = memo(function AddACard({ isAddingCard, setIsAddingCard, setRawCa
   }
   const addNewCard = () => {
     if (nameCard !== '') {
-      setRawCard(prev => {
-        const newCard = {
-          _id : uuidv4(),
-          boardId: 'board-id-02',
-          columnId: '',
-          title: nameCard,
-          memberIds: []
-        }
-        setCardOrder(prev => [...prev, newCard._id])
-        setNameCard('')
-        textareaRef.current.focus()
-        return [...prev, newCard]
-      })
+      const newCardData = {
+        title: nameCard,
+        columnId
+      }
+      createNewCard(newCardData)
+      setNameCard('')
+      textareaRef.current.focus()
     }
   }
   const handleChange = (input) => {

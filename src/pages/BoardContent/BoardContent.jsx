@@ -15,7 +15,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-const BoardContent = ({ board, moveColumn, createNewColumn }) => {
+const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => {
   // tranh click vao bi keo tha ma phai di chuyen it nhat 10px
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   const mouseSensor = useSensor(MouseSensor, {
@@ -236,6 +236,7 @@ const BoardContent = ({ board, moveColumn, createNewColumn }) => {
           boardBarHeight={boardBarHeight}
           orderedColumns={orderedColumns}
           createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
         />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}

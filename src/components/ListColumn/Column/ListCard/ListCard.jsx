@@ -2,10 +2,10 @@ import { Box } from '@mui/material'
 import TrelloCard from './TrelloCard/TrelloCard'
 import AddCard from './AddCard/AddCard'
 import { memo, useEffect, useState } from 'react'
-import { horizontalListSortingStrategy, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 // import { closestCorners, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
 
-const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boardBarHeight, isAddingCard, setIsAddingCard }) {
+const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boardBarHeight, isAddingCard, setIsAddingCard, createNewCard, columnId }) {
   // const mouseSensor = useSensor(MouseSensor, {
   //   // Di chuyển 10px mới thực hiện hàm handleDrag, tránh click
   //   activationConstraint : {
@@ -20,9 +20,9 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
   //   }
   // })
   // const sensors = useSensors(mouseSensor, touchSensor)
-  const [rawCard, setRawCard] = useState(cards)
+  // const [rawCard, setRawCard] = useState(cards)
   const [orderedCards, setOrderedCards] = useState([])
-  const [cardOrder, setCardOrder] = useState(cardOrderIds)
+  // const [cardOrder, setCardOrder] = useState(cardOrderIds)
   // const cardOrdered = cardOrder?.map(id => rawCard?.find(card => card?._id === id))
   useEffect(() => {
     setOrderedCards(cards)
@@ -50,34 +50,25 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
   //   setCardOrder(newColumnIds)
   // }
   return (
-    // <DndContext
-    //   sensors={sensors}
-    //   onDragEnd={handleDragEnd}
-    //   collisionDetection={closestCorners}
-    //   // modifiers={[restrictToVerticalAxis]}
-    // >
-      // <SortableContext items={cardOrdered.map(card => card?._id)} strategy={verticalListSortingStrategy} >
     <SortableContext items={orderedCards?.map(c => c._id)} strategy={verticalListSortingStrategy}>
-        <Box sx={{
-          p: '2px 4px',
-          mx: '4px',
-          overflowX: 'hidden',
-          overflowY: 'auto',
-          flexDirection: 'column',
-          rowGap: '8px',
-          display: displayForOL,
-          flex: '1 1 auto',
-          scrollbarWidth: 'thin',
-          scrollbarColor: '#091e4224 #091e420f',
-          maxHeight: (theme) => `calc(${theme.trello.cardHeight} - ${boardBarHeight}px - ${headerHeight}px)`
-        }} >
-          {/* Trello Card */}
-          { cards?.length !== 0 && orderedCards?.map(card => <TrelloCard key={card?._id} card={card} cardName={card?.title} />)}
-          {isAddingCard && <AddCard setCardOrder={setCardOrder} isAddingCard={isAddingCard} setIsAddingCard={setIsAddingCard} setRawCard={setRawCard} cardOrderIds={cardOrderIds} />}
-        </Box>
-      </SortableContext>
-    //   {/* </SortableContext>
-    // </DndContext> */}
+      <Box sx={{
+        p: '2px 4px',
+        mx: '4px',
+        overflowX: 'hidden',
+        overflowY: 'auto',
+        flexDirection: 'column',
+        rowGap: '8px',
+        display: displayForOL,
+        flex: '1 1 auto',
+        scrollbarWidth: 'thin',
+        scrollbarColor: '#091e4224 #091e420f',
+        maxHeight: (theme) => `calc(${theme.trello.cardHeight} - ${boardBarHeight}px - ${headerHeight}px)`
+      }} >
+        {/* Trello Card */}
+        { cards?.length !== 0 && orderedCards?.map(card => <TrelloCard key={card?._id} card={card} cardName={card?.title} />)}
+        {isAddingCard && <AddCard isAddingCard={isAddingCard} setIsAddingCard={setIsAddingCard} cardOrderIds={cardOrderIds} createNewCard={createNewCard} columnId={columnId} />}
+      </Box>
+    </SortableContext>
   )
 })
 
