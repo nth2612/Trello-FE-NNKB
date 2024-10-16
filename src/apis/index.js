@@ -24,6 +24,10 @@ export const createNewCardAPI = async (newCardData) => {
   const response = await axios.post(`${API_ROOT}/v1/card`, newCardData)
   return response.data
 }
+export const moveCardToDifColAPI = async (updateData) => {
+  const response = await axios.put(`${API_ROOT}/v1/board/move_card`, updateData)
+  return response
+}
 // User
 
 // Invitation

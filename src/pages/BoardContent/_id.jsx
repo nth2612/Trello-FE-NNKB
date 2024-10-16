@@ -91,7 +91,7 @@ const Board = () => {
   if (!board) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh' }}>
-        <CircularProgress size={50} />
+        <CircularProgress size={50} color='info' />
       </Box>
     )
   }

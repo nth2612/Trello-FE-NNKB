@@ -5,6 +5,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { Box } from '@mui/material'
 import { cloneDeep, isEmpty } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
+import { moveCardToDifColAPI } from '~/apis'
 import Column from '~/components/ListColumn/Column/Column'
 import TrelloCard from '~/components/ListColumn/Column/ListCard/TrelloCard/TrelloCard'
 import ListColumn from '~/components/ListColumn/ListColumn'
@@ -64,7 +65,8 @@ const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => 
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    typeDrag
   ) => {
     setOrderedColumns(prev => {
       const overCardIndex = overColumn?.cards?.findIndex(c => c._id === overCardId)
@@ -100,7 +102,7 @@ const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => 
         }
         // Them card moi vao listcard cua over
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, rebuild)
-        // xoa card placeholder khi dc them vao
+        // xoa card placeholder khi dc them vao neu column rong
         nextOverColumn.cards = nextOverColumn.cards.filter(c => !c.FE_PlaceholderCard)
         // cap nhat ids
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(c => c._id)
@@ -130,7 +132,7 @@ const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => 
     if (!activeColumn || !overColumn) return
 
     if (activeColumn._id !== overColumn._id) {
-      moveCardBetweenDiffCol(overColumn, overCardId, active, over, activeColumn, activeDraggingCardId, activeDraggingCardData)
+      moveCardBetweenDiffCol(overColumn, overCardId, active, over, activeColumn, activeDraggingCardId, activeDraggingCardData, 'dragOver')
     }
 
   }
@@ -145,8 +147,13 @@ const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => 
       const overColumn = findColumnByCardId(overCardId)
       if (!activeColumn || !overColumn) return
       if (oldColumnWhenDraggingCard._id !== overColumn._id) {
-        moveCardBetweenDiffCol(overColumn, overCardId, active, over, activeColumn, activeDraggingCardId, activeDraggingCardData)
-
+        moveCardBetweenDiffCol(overColumn, overCardId, active, over, activeColumn, activeDraggingCardId, activeDraggingCardData, 'dragEnd')
+        const updateData = {
+          newColumnId: overColumn._id,
+          oldColumnId: oldColumnWhenDraggingCard._id,
+          cardId: activeDraggingCardId
+        }
+        moveCardToDifColAPI(updateData)
       } else {
         const oldCardIndex = oldColumnWhenDraggingCard.cards.findIndex(c => c._id === activeDragItemId)
         const newCardIndex = overColumn.cards.findIndex(c => c._id === overCardId)

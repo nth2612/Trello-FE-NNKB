@@ -6,6 +6,8 @@ import { Button } from '@mui/material'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState } from 'react'
 import { mapOrder } from './utils/sorts'
+import axios from 'axios'
+import { API_ROOT } from './utils/constants'
 
 const dataTest = {
   orderIds: ['id-04', 'id-02', 'id-03', 'id-01'],
@@ -75,6 +77,10 @@ const Testing = ( { data } ) => {
         setOrderedColumns(dndOrderedColumns)
       }
   }
+  const handleSendMail = () => {
+    const response = axios.post(`${API_ROOT}/v1/board/sendmail`)
+    console.log(response)
+  }
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -84,6 +90,7 @@ const Testing = ( { data } ) => {
           )}
         </SortableContext>
       </DndContext>
+      <Button onClick={handleSendMail} >Check send mail</Button>
     </div>
   )
 }
