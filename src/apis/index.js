@@ -25,7 +25,11 @@ export const createNewCardAPI = async (newCardData) => {
   return response.data
 }
 export const moveCardToDifColAPI = async (updateData) => {
-  const response = await axios.put(`${API_ROOT}/v1/board/move_card`, updateData)
+  const response = await axios.put(`${API_ROOT}/v1/board/drag/move_card`, updateData)
+  return response
+}
+export const moveCardInSameColAPI = async (columnId, updateData) => {
+  const response = await axios.put(`${API_ROOT}/v1/column/${columnId}`, updateData)
   return response
 }
 // User

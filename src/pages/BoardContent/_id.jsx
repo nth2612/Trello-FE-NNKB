@@ -5,7 +5,7 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { createNewCardAPI, createNewColumnAPI, fetchBoardAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewCardAPI, createNewColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
@@ -88,6 +88,34 @@ const Board = () => {
     setBoard(board)
     updateBoardDetailAPI(newBoard._id, { columnOrderIds: newBoard.columnOrderIds })
   }
+  const moveCardToDiffColumn = (cardId, oldColumnId, newColumnId, dndOrderedColumn) => {
+    // Cap nhat data ben FE thi moi keo tha tot duoc
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumn
+    let newCardIdsInOldColumn = dndOrderedColumn.find(c => c._id === oldColumnId).cardOrderIds
+    // Xu ly khi keo phan tu card cuoi cua column
+    if (newCardIdsInOldColumn[0].includes('placeholder')) {
+      newCardIdsInOldColumn = []
+    }
+    const newCardIdsInNewColumn = dndOrderedColumn.find(c => c._id === newColumnId).cardOrderIds
+    moveCardToDifColAPI({
+      cardId,
+      oldColumnId,
+      newColumnId,
+      newCardIdsInOldColumn,
+      newCardIdsInNewColumn
+    })
+  }
+  const moveCardInSameCol = (dndOrderedCard, dndOrderedCardIds, columnId) => {
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(c => c._id === columnId)
+    if (columnToUpdate) {
+      columnToUpdate.cards = dndOrderedCard
+      columnToUpdate.cardOrderIds = dndOrderedCardIds
+    }
+    setBoard(newBoard)
+    moveCardInSameColAPI(columnId, { cardOrderIds: dndOrderedCardIds })
+  }
   if (!board) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh' }}>
@@ -107,6 +135,8 @@ const Board = () => {
             moveColumn={moveColumn}
             createNewColumn={createNewColumn}
             createNewCard={createNewCard}
+            moveCardToDiffColumn={moveCardToDiffColumn}
+            moveCardInSameCol={moveCardInSameCol}
           />
         </Box>
         <Drawer anchor='right' open={open} onClose={() => setOpen(false)} sx={{ '& .MuiPaper-root' : { top: '58px', width: '339px', borderRadius: 'unset', transition: 'transform,width 100ms ease-in' } }} >

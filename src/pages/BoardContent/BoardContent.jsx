@@ -5,7 +5,6 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { Box } from '@mui/material'
 import { cloneDeep, isEmpty } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
-import { moveCardToDifColAPI } from '~/apis'
 import Column from '~/components/ListColumn/Column/Column'
 import TrelloCard from '~/components/ListColumn/Column/ListCard/TrelloCard/TrelloCard'
 import ListColumn from '~/components/ListColumn/ListColumn'
@@ -16,7 +15,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => {
+const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard, moveCardToDiffColumn, moveCardInSameCol }) => {
   // tranh click vao bi keo tha ma phai di chuyen it nhat 10px
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   const mouseSensor = useSensor(MouseSensor, {
@@ -107,6 +106,9 @@ const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => 
         // cap nhat ids
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(c => c._id)
       }
+      if (typeDrag === 'dragEnd') {
+        moveCardToDiffColumn(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumns)
+      }
       return nextColumns
     })
   }
@@ -148,25 +150,20 @@ const BoardContent = ({ board, moveColumn, createNewColumn, createNewCard }) => 
       if (!activeColumn || !overColumn) return
       if (oldColumnWhenDraggingCard._id !== overColumn._id) {
         moveCardBetweenDiffCol(overColumn, overCardId, active, over, activeColumn, activeDraggingCardId, activeDraggingCardData, 'dragEnd')
-        const updateData = {
-          newColumnId: overColumn._id,
-          oldColumnId: oldColumnWhenDraggingCard._id,
-          cardId: activeDraggingCardId
-        }
-        moveCardToDifColAPI(updateData)
       } else {
         const oldCardIndex = oldColumnWhenDraggingCard.cards.findIndex(c => c._id === activeDragItemId)
         const newCardIndex = overColumn.cards.findIndex(c => c._id === overCardId)
         const dndOrderedCards = arrayMove(oldColumnWhenDraggingCard.cards, oldCardIndex, newCardIndex)
+        const dndOrderedCardIds = dndOrderedCards.map(c => c._id)
         setOrderedColumns(prev => {
           const nextColumns = cloneDeep(prev)
-
           //tim column dang keo
           const targetColumn = nextColumns.find(c => c._id === overColumn._id)
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map(c => c._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
           return nextColumns
         })
+        moveCardInSameCol(dndOrderedCards, dndOrderedCardIds, oldColumnWhenDraggingCard._id)
       }
     }
     // Xu ly keo tha column
