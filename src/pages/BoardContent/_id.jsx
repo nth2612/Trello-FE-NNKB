@@ -119,7 +119,8 @@ const Board = () => {
   }
   if (!board) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh', flexDirection: 'column' }}>
+        <h1 className='mb-3'>Vì trang web này được host server free trên Render nên vui lòng chờ một vài phút để server trên đó tự động bật lên</h1>
         <CircularProgress size={50} color='info' />
       </Box>
     )
