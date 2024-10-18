@@ -5,11 +5,12 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { createNewCardAPI, createNewColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewCardAPI, createNewColumnAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
 import { generatePlaceholderCard } from '~/utils/formatters'
+import { toast } from 'react-toastify'
 
 const Board = () => {
   const boardBarRef = useRef(null)
@@ -123,6 +124,15 @@ const Board = () => {
       </Box>
     )
   }
+  const deleteOneColumn = (columnId) => {
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(id => id !== columnId)
+    setBoard(newBoard)
+    deleteColumnAPI(columnId).then(res => {
+      toast.success(res.data.message)
+    })
+  }
   return (
     <>
       <AppBar/>
@@ -137,6 +147,7 @@ const Board = () => {
             createNewCard={createNewCard}
             moveCardToDiffColumn={moveCardToDiffColumn}
             moveCardInSameCol={moveCardInSameCol}
+            deleteOneColumn={deleteOneColumn}
           />
         </Box>
         <Drawer anchor='right' open={open} onClose={() => setOpen(false)} sx={{ '& .MuiPaper-root' : { top: '58px', width: '339px', borderRadius: 'unset', transition: 'transform,width 100ms ease-in' } }} >
