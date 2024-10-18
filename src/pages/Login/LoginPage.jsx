@@ -25,6 +25,10 @@ const LoginPage = () => {
       <Box className='absolute top-1/2 left-1/2 w-96 bg-white translate-x-n50 translate-y-n50 rounded-lg p-4'>
         <form onSubmit={handleSubmit(submitLogIn)}>
           <h1 className='font-extrabold text-3xl text-[#0079bf] text-center'>Trello</h1>
+          <div className='text-center'>
+            <p>Web còn đang trong thời gian phát triển</p>
+            <p>Example account: TK: nishykata, MK: 1</p>
+          </div>
           <input
             className={`outline-none border w-full px-4 py-2 rounded ${!!errors.email && 'border-red-500' }`}
             type="text"
