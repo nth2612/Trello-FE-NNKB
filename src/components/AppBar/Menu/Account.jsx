@@ -6,15 +6,24 @@ import { useState } from 'react'
 import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu, Typography } from '@mui/material'
 import OutputIcon from '@mui/icons-material/Output'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { logoutAPI } from '~/apis'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function Account() {
   const [anchorEl, setAnchorEl] = useState(null)
+  const navigate = useNavigate()
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+  const handleLogout = async () => {
+    const response = await logoutAPI()
+    toast.success(response.data.message)
+    navigate('/login')
   }
   return (
     <>
@@ -101,7 +110,7 @@ function Account() {
           <ListItemText sx={{ my: 0 }} primary='Shortcuts' />
         </ListItemButton>
         <Divider sx={{ marginY: 1, borderColor: '#091e4224' }}/>
-        <ListItemButton sx={{ color: '#172b4d' }} onClick={() => location.href = '/login'} >
+        <ListItemButton sx={{ color: '#172b4d' }} onClick={handleLogout} >
           <ListItemText sx={{ my: 0 }} primary='Log out'/>
         </ListItemButton>
       </Menu>

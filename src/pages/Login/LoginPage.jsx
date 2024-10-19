@@ -3,22 +3,22 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { loginAPI } from '~/apis'
 
-const mockData = {
-  email: 'nishykata',
-  password: '1'
-}
 
 const LoginPage = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm()
   const navigate = useNavigate()
-  const submitLogIn = (data) => {
-    if (data.email !== mockData.email || data.password !== mockData.password) {
-      toast.error('Sai tk mk roi')
-      return
+  const submitLogIn = async (data) => {
+    const response = await loginAPI(data)
+    const userInfo = {
+      id: response._id,
+      email: response.email,
+      username: response.username
     }
-    toast.success('Dang nhap ok')
-    navigate('/user')
+    toast.success(response.message)
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    navigate('/board')
   }
   return (
     <Box className='bg-login-signup h-screen bg-no-repeat bg-cover bg-center relative'>
