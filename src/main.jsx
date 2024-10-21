@@ -12,7 +12,7 @@ import { ConfirmProvider } from 'material-ui-confirm'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/'>
       <CssVarsProdiver theme={theme} defaultMode='system'>
         <ConfirmProvider defaultOptions={{
           allowClose: false

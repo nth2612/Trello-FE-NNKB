@@ -18,7 +18,7 @@ const LoginPage = () => {
     }
     toast.success(response.message)
     localStorage.setItem('userInfo', JSON.stringify(userInfo))
-    navigate('/board')
+    navigate('/user')
   }
   return (
     <Box className='bg-login-signup h-screen bg-no-repeat bg-cover bg-center relative'>
@@ -27,7 +27,7 @@ const LoginPage = () => {
           <h1 className='font-extrabold text-3xl text-[#0079bf] text-center'>Trello</h1>
           <div className='text-center'>
             <p>Web còn đang trong thời gian phát triển</p>
-            <p>Example account: TK: nishykata, MK: 1</p>
+            <p>Example account: TK: nishykata, MK: 123</p>
           </div>
           <input
             className={`outline-none border w-full px-4 py-2 rounded ${!!errors.email && 'border-red-500' }`}

@@ -3,12 +3,15 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { signupAPI } from '~/apis'
 
 const SignUpPage = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const navigate = useNavigate()
-  const submitSignUp = (data) => {
-    toast.success('Đăng ký thành công, vui lòng đăng nhập lại')
+  const submitSignUp = async (data) => {
+    delete data.confirm_password
+    const response = await signupAPI(data)
+    toast.success(response.data.message)
     navigate('/login')
   }
   return (
@@ -18,7 +21,7 @@ const SignUpPage = () => {
           <h1 className='font-extrabold text-3xl text-[#0079bf] text-center'>Trello</h1>
           {/* Username */}
           <input
-            className={`outline-none border w-full px-4 py-2 rounded ${!!errors.username && 'border-red-500' }`}
+            className={`outline-none border w-full px-4 py-2 focus:border-blue-500 rounded ${!!errors.username && '!border-red-500' }`}
             type="text"
             placeholder='Enter your username'
             {...register('username', {
@@ -27,7 +30,7 @@ const SignUpPage = () => {
           {errors.username && <p className='ml-2 text-red-500 mt-1'>{errors.username.message}</p>}
           {/* Email */}
           <input
-            className={`outline-none border w-full px-4 py-2 rounded mt-4 ${!!errors.email && 'border-red-500' }`}
+            className={`outline-none border w-full px-4 py-2 rounded focus:border-blue-500 mt-4 ${!!errors.email && '!border-red-500' }`}
             type="text"
             placeholder='Enter email...'
             {...register('email', {
@@ -36,7 +39,7 @@ const SignUpPage = () => {
           {errors.email && <p className='ml-2 text-red-500 mt-1'>{errors.email.message}</p>}
           {/* Password */}
           <input
-            className={`outline-none border w-full px-4 py-2 rounded mt-4 ${!!errors.password && 'border-red-500' }`}
+            className={`outline-none border w-full px-4 py-2 rounded focus:border-blue-500 mt-4 ${!!errors.password && '!border-red-500' }`}
             type="password"
             placeholder='Enter password...'
             {...register('password', {
@@ -45,7 +48,7 @@ const SignUpPage = () => {
           {errors.password && <p className='ml-2 text-red-500 mt-1'>{errors.password.message}</p>}
           {/* Confirm password */}
           <input
-            className={`outline-none border w-full px-4 py-2 rounded mt-4 ${!!errors.confirm_password && 'border-red-500' }`}
+            className={`outline-none border w-full px-4 py-2 rounded focus:border-blue-500 mt-4 ${!!errors.confirm_password && '!border-red-500' }`}
             type="password"
             placeholder='Confirm password...'
             {...register('confirm_password', {

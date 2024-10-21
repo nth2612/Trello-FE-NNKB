@@ -2,9 +2,14 @@ import authorizedAxiosInstance from '~/utils/authorizedAxios'
 import { API_ROOT } from '~/utils/constants'
 
 // Board
-// Get board
+// Get one board
 export const fetchBoardAPI = async (boardId) => {
   const response = await authorizedAxiosInstance.get(`${API_ROOT}/v1/board/${boardId}`)
+  return response.data
+}
+// Get all boards
+export const fetchAllBoardsAPI = async (userId) => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/v1/board/getallboards/${userId}`)
   return response.data
 }
 // Moving column
@@ -43,6 +48,10 @@ export const loginAPI = async (userInfo) => {
 export const logoutAPI = async () => {
   localStorage.removeItem('userInfo')
   const response = await authorizedAxiosInstance.delete(`${API_ROOT}/v1/user/logout`)
+  return response
+}
+export const signupAPI = async (userData) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/user/signup`, userData)
   return response
 }
 // Invitation
