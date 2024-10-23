@@ -49,7 +49,6 @@ const App = () => {
         <Route path='/user' element={<UserPage/>}/>
         <Route path='/board/:id' element={<Board />}/>
       </Route>
-      <Route path='/board' element={<Board />}/>
       {/* <Route path='/board' element={<Main />}/> */}
     </Routes>
   )
