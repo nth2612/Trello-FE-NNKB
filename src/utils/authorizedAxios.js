@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
-// import { handleLogoutAPI } from '~/apis'
+import { logoutAPI } from '~/apis'
 
 // Khoi tao doi tuong de custom cau hinh
 let authorizedAxiosInstance = axios.create()
@@ -29,10 +29,9 @@ authorizedAxiosInstance.interceptors.response.use(response => {
   // Important
   // Neu nhan ma 401, goi api logout
   if (error?.response?.status === 401) {
-    // handleLogoutAPI().then(() => {
-    //   // day la navigate bang js thuan
-    //   location.href = '/login'
-    // })
+    logoutAPI().then(() => {
+      location.href = '/login'
+    })
     console.log('hello :))')
   }
   // Neu nhan ma 410 tu backend, goi api refresh token

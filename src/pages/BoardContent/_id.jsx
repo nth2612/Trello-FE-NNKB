@@ -11,11 +11,10 @@ import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { toast } from 'react-toastify'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 const Board = () => {
-  // const location = useLocation()
-  // console.log(location)
+  const { id } = useParams()
   const boardBarRef = useRef(null)
   const [board, setBoard] = useState(null)
   const removeMargin = useMediaQuery('(min-width: 751px)')
@@ -30,7 +29,7 @@ const Board = () => {
   useEffect(() => {
     // 67147cae2570b0730c420c93
     // 67093f6e67ef55490d8a212c
-    fetchBoardAPI('67147cae2570b0730c420c93').then((boardResponse) => {
+    fetchBoardAPI(id).then((boardResponse) => {
       // Lay du lieu tu backend ve roi sort lai theo orderids vi data o backend khong co sort list column cho
       boardResponse.columns = mapOrder(boardResponse.columns, boardResponse.columnOrderIds, '_id')
       // Neu column khong co card thi generate placeholder card
@@ -45,7 +44,7 @@ const Board = () => {
       })
       setBoard(boardResponse)
     })
-  }, [])
+  }, [id])
   // Them moi useEffect tach ra
   useEffect(() => {
     if (boardBarRef.current) {
