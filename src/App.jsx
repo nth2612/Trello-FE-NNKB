@@ -37,9 +37,9 @@ const App = () => {
   return (
     <Routes>
       {/* Khi truy cap trang web thi tro ngay toi login */}
-      <Route path='*' element={<NotFound/>} />
+      {/* <Route path='*' element={<NotFound/>} />
       <Route path='/404' element={<NotFound/>} />
-      <Route path='/board' element={<Navigate to='/404' replace />} />
+      <Route path='/board' element={<Navigate to='/404' replace />} /> */}
       <Route path='/' element={<Navigate to='/login' replace={true} />} />
       <Route element={<UnauthorizedRoutes />}>
         <Route path='/login' element={<LoginPage/>} />
