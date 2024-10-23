@@ -26,6 +26,8 @@ const Board = () => {
   const setOpenToFalse = () => {
     setOpen(false)
   }
+  console.log('boardId', id)
+  console.log(typeof id)
   useEffect(() => {
     // 67147cae2570b0730c420c93
     // 67093f6e67ef55490d8a212c
@@ -43,7 +45,8 @@ const Board = () => {
         }
       })
       setBoard(boardResponse)
-    })
+    }).catch((error) => console.log('bug', error)
+    )
   }, [id])
   // Them moi useEffect tach ra
   useEffect(() => {
