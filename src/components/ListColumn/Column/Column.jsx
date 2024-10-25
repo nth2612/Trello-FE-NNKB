@@ -9,7 +9,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useConfirm } from 'material-ui-confirm'
 
-const Column = memo(function Column({ column, boardBarHeight, createNewCard, deleteOneColumn }) {
+const Column = memo(function Column({ column, boardBarHeight, createNewCard, deleteOneColumn, renameColumn }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column?._id,
     data: { ...column }
@@ -40,6 +40,7 @@ const Column = memo(function Column({ column, boardBarHeight, createNewCard, del
   }
   const handleBlur = () => {
     setEditText(false)
+    renameColumn(column._id, initText)
   }
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -112,7 +113,7 @@ const Column = memo(function Column({ column, boardBarHeight, createNewCard, del
                   fontWeight: '500',
                   lineHeight: '20px',
                   overflowWrap: 'anywhere'
-                }}>{column.title}</h2>
+                }}>{initText}</h2>
               <textarea
                 style={{ height: `${h2Height}px`, display: editText ? 'block' : 'none' }}
                 ref={textareaRef}

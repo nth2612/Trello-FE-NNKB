@@ -5,7 +5,7 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { createNewCardAPI, createNewColumnAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewCardAPI, createNewColumnAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, renameColumnAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
@@ -26,8 +26,6 @@ const Board = () => {
   const setOpenToFalse = () => {
     setOpen(false)
   }
-  console.log('boardId', id)
-  console.log(typeof id)
   useEffect(() => {
     // 67147cae2570b0730c420c93
     // 67093f6e67ef55490d8a212c
@@ -124,6 +122,15 @@ const Board = () => {
     setBoard(newBoard)
     moveCardInSameColAPI(columnId, { cardOrderIds: dndOrderedCardIds })
   }
+  const renameColumn = async (columnId, title) => {
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(c => c._id === columnId)
+    if (columnToUpdate) {
+      columnToUpdate.title = title
+    }
+    setBoard(newBoard)
+    renameColumnAPI(columnId, { title })
+  }
   if (!board) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh', flexDirection: 'column' }}>
@@ -156,6 +163,7 @@ const Board = () => {
             moveCardToDiffColumn={moveCardToDiffColumn}
             moveCardInSameCol={moveCardInSameCol}
             deleteOneColumn={deleteOneColumn}
+            renameColumn={renameColumn}
           />
         </Box>
         <Drawer anchor='right' open={open} onClose={() => setOpen(false)} sx={{ '& .MuiPaper-root' : { top: '58px', width: '339px', borderRadius: 'unset', transition: 'transform,width 100ms ease-in' } }} >
