@@ -5,7 +5,7 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { createNewCardAPI, createNewColumnAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, renameColumnAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewCardAPI, createNewColumnAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, renameColumnAPI, sendEmailAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
@@ -14,7 +14,7 @@ import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 
 const Board = () => {
-  const { id } = useParams()
+  const { id: idBoard } = useParams()
   const boardBarRef = useRef(null)
   const [board, setBoard] = useState(null)
   const removeMargin = useMediaQuery('(min-width: 751px)')
@@ -29,7 +29,7 @@ const Board = () => {
   useEffect(() => {
     // 67147cae2570b0730c420c93
     // 67093f6e67ef55490d8a212c
-    fetchBoardAPI(id).then((boardResponse) => {
+    fetchBoardAPI(idBoard).then((boardResponse) => {
       // Lay du lieu tu backend ve roi sort lai theo orderids vi data o backend khong co sort list column cho
       boardResponse.columns = mapOrder(boardResponse.columns, boardResponse.columnOrderIds, '_id')
       // Neu column khong co card thi generate placeholder card
@@ -43,9 +43,9 @@ const Board = () => {
         }
       })
       setBoard(boardResponse)
-    }).catch((error) => console.log('bug', error)
+    }).catch((error) => toast.error(error)
     )
-  }, [id])
+  }, [idBoard])
   // Them moi useEffect tach ra
   useEffect(() => {
     if (boardBarRef.current) {
@@ -131,14 +131,6 @@ const Board = () => {
     setBoard(newBoard)
     renameColumnAPI(columnId, { title })
   }
-  if (!board) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh', flexDirection: 'column' }}>
-        <h1 className='mb-3'>Vì trang web này được host server free trên Render nên vui lòng chờ một vài phút để server trên đó tự động bật lên</h1>
-        <CircularProgress size={50} color='info' />
-      </Box>
-    )
-  }
   const deleteOneColumn = (columnId) => {
     const newBoard = { ...board }
     newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
@@ -148,13 +140,40 @@ const Board = () => {
       toast.success(res.data.message)
     })
   }
+  const sendEmail = async (data) => {
+    const dataLocal = JSON.parse(localStorage.getItem('userInfo'))
+    const fullData = {
+      ...data,
+      username: dataLocal.username,
+      inviterId: dataLocal.id,
+      boardInvitation: idBoard
+    }
+    // Vi khi gui email, user nhan chua chap nhan nen chua duoc cap nhat board
+    sendEmailAPI(fullData).then(res => {
+      toast.success(res.data.message)
+    })
+  }
+  if (!board) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh', flexDirection: 'column' }}>
+        <h1 className='mb-3'>Vì trang web này được host server free trên Render nên vui lòng chờ một vài phút để server trên đó tự động bật lên</h1>
+        <CircularProgress size={50} color='info' />
+      </Box>
+    )
+  }
   return (
     <>
       <AppBar/>
       <Box sx={{ borderTop: '1px solid #297eb0', display: 'flex', position: 'relative' }}>
         <ExpandLeft/>
         <Box sx={{ flexGrow: 1, borderLeft: '1px solid #298ec9', overflow: 'auto', mr: open && removeMargin ? '339px' : '0px' }}>
-          <BoardBar refBoardBar={boardBarRef} handleOpen={handleOpen} open={open} nameBoard={mockData.board?.title} />
+          <BoardBar
+            refBoardBar={boardBarRef}
+            handleOpen={handleOpen}
+            open={open}
+            nameBoard={mockData.board?.title}
+            sendEmail={sendEmail}
+          />
           <BoardContent
             board={board}
             moveColumn={moveColumn}

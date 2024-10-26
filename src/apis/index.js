@@ -59,3 +59,11 @@ export const signupAPI = async (userData) => {
   return response
 }
 // Invitation
+export const sendEmailAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/invite`, data)
+  return response
+}
+export const confirmInviteAPI = async (inviteId) => {
+  const response = await authorizedAxiosInstance.put(`${API_ROOT}/v1/confirm-invite?inviteId=${inviteId}`)
+  return response
+}

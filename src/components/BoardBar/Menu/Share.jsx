@@ -7,11 +7,20 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 const textCantWrite = 'Tuấn Hải (you)'
 
-function Share() {
+function Share({ sendEmail }) {
   const responsive = useMediaQuery('(min-width: 751px)')
+  const [email, setEmail] = useState('')
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
+  const hanleSendEmail = () => {
+    sendEmail({ email })
+    setOpen(false)
+    setEmail('')
+  }
   return (
     <>
       <Button
@@ -55,10 +64,21 @@ function Share() {
             </IconButton>
           </Box>
           <Box sx={{ display: 'flex', mb: '16px', flexWrap: responsive ? undefined : 'wrap' }} >
-            <TextField size='small' color='info' placeholder='Email address or name' sx={{ flex: 1, '& .MuiInputBase-input:focus fieldset' : { borderColor: '#388bff' }, '& fieldset' : { borderColor: '#8590a2' }, '& input' : { color: '#172b4d' } }} />
+            <TextField
+              size='small'
+              value={email}
+              onChange={handleChangeEmail}
+              color='info'
+              placeholder='Email address or name'
+              sx={{
+                flex: 1,
+                '& .MuiInputBase-input:focus fieldset' : { borderColor: '#388bff' },
+                '& fieldset' : { borderColor: '#8590a2' },
+                '& input' : { color: '#172b4d' } }}
+            />
             <Button sx={{ mx: responsive ? '8px' : undefined, bgcolor: '#091e420f', color: '#172b4d', padding: '4px 10px', '&:hover' : { bgcolor: '#091e4224' } }} endIcon={<KeyboardArrowDownIcon sx={{ mr: 0 }} />} >Member</Button>
             <Box sx={{ flexBasis: responsive ? undefined : '100%', height: responsive ? undefined : '8px' }} ></Box>
-            <Button sx={{ bgcolor: '#0c66e4', color: '#fff', flexGrow: responsive ? undefined : 1, '&:hover' : { bgcolor: '#0055cc' } }} >Share</Button>
+            <Button onClick={hanleSendEmail} sx={{ bgcolor: '#0c66e4', color: '#fff', flexGrow: responsive ? undefined : 1, '&:hover' : { bgcolor: '#0055cc' } }} >Share</Button>
           </Box>
           <Box>
             <Box sx={{ pt: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >

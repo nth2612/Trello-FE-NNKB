@@ -10,7 +10,7 @@ import Automation from './Menu/Automation'
 import Share from './Menu/Share'
 import Members from './Menu/Members'
 
-function BoardBar({ handleOpen, open, nameBoard, refBoardBar }) {
+function BoardBar({ handleOpen, open, nameBoard, refBoardBar, sendEmail }) {
   const responsiveText = useMediaQuery('(min-width: 1541px)')
   const combineCustom = useMediaQuery('(min-width: 1281px)')
   const responsiveFilter = useMediaQuery('(min-width: 901px)')
@@ -59,7 +59,7 @@ function BoardBar({ handleOpen, open, nameBoard, refBoardBar }) {
         </Tooltip>
         <Divider orientation='vertical' variant='middle' flexItem sx={{ borderColor: '#2976a3', margin: '8px 2px' }} />
         <Members/>
-        <Share/>
+        <Share sendEmail={sendEmail} />
         <Button sx={{ minWidth: 'unset', padding: '4px !important', display: open ? 'none' : 'inline-flex' }} onClick={handleOpen} >
           <MoreHorizRoundedIcon sx={{ color: 'white' }} />
         </Button>
