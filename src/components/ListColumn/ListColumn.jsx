@@ -5,7 +5,6 @@ import { memo } from 'react'
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable'
 
 const ListColumn = memo(function ListColumn({ boardBarHeight, orderedColumns, createNewColumn, createNewCard, deleteOneColumn, renameColumn }) {
-  // const orderedColumns = columnIds.map(id => rawColumn.find(column => column._id === id))
   return (
     // items can nhan list id chu k phai object
     <SortableContext items={orderedColumns.map(c => c._id)} strategy={horizontalListSortingStrategy}>

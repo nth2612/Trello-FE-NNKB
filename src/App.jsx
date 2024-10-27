@@ -34,7 +34,6 @@ const UnauthorizedRoutes = () => {
   return <Outlet />
 }
 const App = () => {
-  console.log('re-render')
   return (
     <Routes>
       {/* Khi truy cap trang web thi tro ngay toi login */}

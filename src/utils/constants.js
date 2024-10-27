@@ -1,5 +1,3 @@
-// export const API_ROOT = 'http://localhost:8017'
-
 let apiRoot = ''
 if (import.meta.env.VITE_BUILD_MODE === 'dev') {
   apiRoot = 'http://localhost:8017'
