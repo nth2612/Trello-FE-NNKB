@@ -17,6 +17,10 @@ export const updateBoardDetailAPI = async (boardId, updateData) => {
   const response = await authorizedAxiosInstance.put(`${API_ROOT}/v1/board/${boardId}`, updateData)
   return response
 }
+export const createNewBoardAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/board`, data)
+  return response
+}
 
 // Column
 export const createNewColumnAPI = async (newColumnData) => {
