@@ -11,9 +11,10 @@ import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { toast } from 'react-toastify'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Board = () => {
+  const navigate = useNavigate()
   const { id: idBoard } = useParams()
   const boardBarRef = useRef(null)
   const [board, setBoard] = useState(null)
@@ -27,8 +28,6 @@ const Board = () => {
     setOpen(false)
   }
   useEffect(() => {
-    // 67147cae2570b0730c420c93
-    // 67093f6e67ef55490d8a212c
     fetchBoardAPI(idBoard).then((boardResponse) => {
       // Lay du lieu tu backend ve roi sort lai theo orderids vi data o backend khong co sort list column cho
       boardResponse.columns = mapOrder(boardResponse.columns, boardResponse.columnOrderIds, '_id')
@@ -43,10 +42,10 @@ const Board = () => {
         }
       })
       setBoard(boardResponse)
-    }).catch((error) => toast.error(error)
-    )
-  }, [idBoard])
-  // Them moi useEffect tach ra
+    }).catch(error => {
+      navigate(error.response.data.navigate)
+    })
+  }, [idBoard, navigate])
   useEffect(() => {
     if (boardBarRef.current) {
       setBoardBarHeight(boardBarRef.current.offsetHeight)
