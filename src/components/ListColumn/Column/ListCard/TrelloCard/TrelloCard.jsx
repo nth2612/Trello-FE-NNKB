@@ -1,6 +1,6 @@
-import { Box, IconButton } from '@mui/material'
+import { Box, IconButton, Modal, TextField } from '@mui/material'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
@@ -9,11 +9,18 @@ const TrelloCard = memo(function TrelloCard({ card }) {
     id: card?._id,
     data: { ...card }
   })
+  const [open, setOpen] = useState(false)
+  const [newCardName, setNewCardName] = useState(card?.title)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   const dndkitCardStyles = {
     // touchAction: 'none',
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? '0.7' : undefined
+  }
+  const handleRename = (e) => {
+    setNewCardName(e.target.value)
   }
   return (
     <Box
@@ -41,10 +48,30 @@ const TrelloCard = memo(function TrelloCard({ card }) {
         <Box sx={{ color: '#172b4d', fontSize: '14px' }} >
           {card?.title}
         </Box>
-        <IconButton sx={{ display: 'none', position: 'absolute', width: '32px', height: '32px', top: '2px', right: '2px', bgcolor: '#fff', '&:hover': { bgcolor: '#f1f2f4' } }} >
+        <IconButton onClick={handleOpen} sx={{ display: 'none', position: 'absolute', width: '32px', height: '32px', top: '2px', right: '2px', bgcolor: '#fff', '&:hover': { bgcolor: '#f1f2f4' } }} >
           <EditOutlinedIcon sx={{ fontSize: '16px' }} />
         </IconButton>
       </Box>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-edit-card"
+      >
+        <Box
+          id='modal-edit-card'
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+            width: '400px',
+            bgcolor: 'white',
+            borderRadius: '8px',
+            padding: '12px'
+          }}>
+          <TextField value={newCardName} onChange={handleRename} />
+        </Box>
+      </Modal>
     </Box>
   )
 })
