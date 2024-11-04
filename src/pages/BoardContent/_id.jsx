@@ -5,7 +5,7 @@ import ExpandLeft from '~/components/ExpandLeft/ExpandLeft'
 import { useEffect, useRef, useState } from 'react'
 import BoardMenu from '~/components/BoardMenu/BoardMenu'
 import { mockData } from '~/apis/mock-data'
-import { createNewCardAPI, createNewColumnAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, renameColumnAPI, sendEmailAPI, updateBoardDetailAPI } from '~/apis'
+import { createNewCardAPI, createNewColumnAPI, deleteCardAPI, deleteColumnAPI, fetchBoardAPI, moveCardInSameColAPI, moveCardToDifColAPI, renameCardAPI, renameColumnAPI, sendEmailAPI, updateBoardDetailAPI } from '~/apis'
 import BoardContent from './BoardContent'
 import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
@@ -152,6 +152,22 @@ const Board = () => {
       toast.success(res.data.message)
     })
   }
+  const deleteCard = (cardId, columnId) => {
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(c => c._id === columnId)
+    columnToUpdate.cards = columnToUpdate.cards.filter(c => c._id !== cardId)
+    setBoard(newBoard)
+    deleteCardAPI(cardId).then(res => {
+      toast.success(res.data.message)
+    }) 
+  }
+  const renameCard = (cardId, columnId, nameCard) => {
+    const newBoard = { ...board }
+    const cardToUpdate = newBoard.columns.find(c => c._id === columnId).cards.find(c => c._id === cardId)
+    cardToUpdate.title = nameCard
+    setBoard(newBoard)
+    renameCardAPI(cardId, { title: nameCard})
+  }
   if (!board) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh', flexDirection: 'column' }}>
@@ -182,6 +198,8 @@ const Board = () => {
             moveCardInSameCol={moveCardInSameCol}
             deleteOneColumn={deleteOneColumn}
             renameColumn={renameColumn}
+            deleteCard={deleteCard}
+            renameCard={renameCard}
           />
         </Box>
         <Drawer anchor='right' open={open} onClose={() => setOpen(false)} sx={{ '& .MuiPaper-root' : { top: '58px', width: '339px', borderRadius: 'unset', transition: 'transform,width 100ms ease-in' } }} >

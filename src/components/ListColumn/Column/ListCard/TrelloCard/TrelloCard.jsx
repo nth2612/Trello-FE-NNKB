@@ -1,17 +1,22 @@
-import { Box, IconButton, Modal, TextField } from '@mui/material'
+import { Box, Button, IconButton, Modal, TextField } from '@mui/material'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { memo, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useConfirm } from 'material-ui-confirm'
 
-const TrelloCard = memo(function TrelloCard({ card }) {
+const TrelloCard = memo(function TrelloCard({ card, deleteCard, renameCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card?._id,
     data: { ...card }
   })
   const [open, setOpen] = useState(false)
   const [newCardName, setNewCardName] = useState(card?.title)
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => {
+    setNewCardName(card?.title)
+    setOpen(true)
+  }
+  let disabled = true
   const handleClose = () => setOpen(false)
   const dndkitCardStyles = {
     // touchAction: 'none',
@@ -21,9 +26,33 @@ const TrelloCard = memo(function TrelloCard({ card }) {
   }
   const handleRename = (e) => {
     setNewCardName(e.target.value)
+    if (e.target.value !== card?.title) {
+      disabled = false
+    }
+    else {
+      disabled = true
+    }
+  }
+  const confirmDelete = useConfirm()
+  const handleDeleleCard = () => {
+    confirmDelete({
+      title: 'Warning delete',
+      description: 'Are you sure you want to delete this card ?',
+      dialogProps: { maxWidth: 'xs' }
+    }).then(() => {
+      handleClose()
+      deleteCard(card._id, card.columnId)
+    }).catch(() => {})
+  }
+  const handleChangeName = () => {
+    if (newCardName !== card?.title) {
+      handleClose()
+      renameCard(card._id, card.columnId, newCardName)
+    }
   }
   return (
-    <Box
+    <>
+      <Box
       style={dndkitCardStyles}
       ref={setNodeRef}
       {...attributes}
@@ -52,27 +81,48 @@ const TrelloCard = memo(function TrelloCard({ card }) {
           <EditOutlinedIcon sx={{ fontSize: '16px' }} />
         </IconButton>
       </Box>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-edit-card"
-      >
-        <Box
-          id='modal-edit-card'
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)',
-            width: '400px',
-            bgcolor: 'white',
-            borderRadius: '8px',
-            padding: '12px'
-          }}>
-          <TextField value={newCardName} onChange={handleRename} />
-        </Box>
-      </Modal>
     </Box>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-edit-card"
+    >
+      <Box
+        id='modal-edit-card'
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%,-50%)',
+          bgcolor: 'white',
+          borderRadius: '8px',
+          padding: '12px'
+        }}>
+        <Box sx={{ mb: 2 }} >
+          <TextField value={newCardName} onChange={handleRename} size='small' />
+          <Button
+          sx={{
+            bgcolor: '#0065a0',
+            color: 'white',
+            fontSize: '16px',
+            padding: '12px 18px',
+            '&:hover': { bgcolor: '#0065a0b3'},
+            ml: 1
+          }}
+          size='small'
+          onClick={handleChangeName}
+          >Edit</Button>
+        </Box>
+        <Button
+        color='error'
+        variant='contained'
+        sx={{ '&:hover': { bgcolor: '#d32f2fb1' }}}
+        fullWidth
+        onClick={handleDeleleCard}
+        size='large'>Delete card</Button>
+      </Box>
+    </Modal>
+    </>
   )
 })
 

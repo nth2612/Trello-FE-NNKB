@@ -48,6 +48,14 @@ export const moveCardInSameColAPI = async (columnId, updateData) => {
   const response = await authorizedAxiosInstance.put(`${API_ROOT}/v1/column/${columnId}`, updateData)
   return response
 }
+export const deleteCardAPI = async (cardId) => {
+  const response = await authorizedAxiosInstance.delete(`${API_ROOT}/v1/card/${cardId}`)
+  return response
+}
+export const renameCardAPI = async (cardId, updateData) => {
+  const response = await authorizedAxiosInstance.put(`${API_ROOT}/v1/card/${cardId}`, updateData)
+  return response
+}
 // User
 export const loginAPI = async (userInfo) => {
   const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/user/login`, userInfo)
