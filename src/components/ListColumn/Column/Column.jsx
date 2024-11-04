@@ -9,7 +9,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useConfirm } from 'material-ui-confirm'
 
-const Column = memo(function Column({ column, boardBarHeight, createNewCard, deleteOneColumn, renameColumn }) {
+const Column = memo(function Column({ column, boardBarHeight, createNewCard, deleteOneColumn, renameColumn, deleteCard, renameCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column?._id,
     data: { ...column }
@@ -153,6 +153,8 @@ const Column = memo(function Column({ column, boardBarHeight, createNewCard, del
             setIsAddingCard={setIsAddingCard}
             createNewCard={createNewCard}
             columnId={column?._id}
+            deleteCard={deleteCard}
+            renameCard={renameCard}
           />
           {!isAddingCard &&
           <Box sx={{ padding: '8px 8px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', columnGap: '4px' }} >

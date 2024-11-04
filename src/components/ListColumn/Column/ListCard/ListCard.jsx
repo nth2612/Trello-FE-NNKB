@@ -4,7 +4,7 @@ import AddCard from './AddCard/AddCard'
 import { memo, useEffect, useState } from 'react'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
-const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boardBarHeight, isAddingCard, setIsAddingCard, createNewCard, columnId }) {
+const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boardBarHeight, isAddingCard, setIsAddingCard, createNewCard, columnId, deleteCard, renameCard }) {
   const [orderedCards, setOrderedCards] = useState([])
   useEffect(() => {
     setOrderedCards(cards)
@@ -32,7 +32,7 @@ const ListCard = memo(function ListCard({ headerHeight, cards, cardOrderIds, boa
         maxHeight: (theme) => `calc(${theme.trello.cardHeight} - ${boardBarHeight}px - ${headerHeight}px)`
       }} >
         {/* Trello Card */}
-        { cards?.length !== 0 && orderedCards?.map(card => <TrelloCard key={card?._id} card={card} cardName={card?.title} />)}
+        { cards?.length !== 0 && orderedCards?.map(card => <TrelloCard key={card?._id} card={card} cardName={card?.title} deleteCard={deleteCard} renameCard={renameCard} />)}
         {isAddingCard && <AddCard isAddingCard={isAddingCard} setIsAddingCard={setIsAddingCard} cardOrderIds={cardOrderIds} createNewCard={createNewCard} columnId={columnId} />}
       </Box>
     </SortableContext>
